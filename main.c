@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <fcntl.h>
+
 void myStrcpy(char *s, char *t, int n) {
 	while (*s && *t && n > 0) {
 		*s = *t;
@@ -110,6 +111,7 @@ int stridx(char c, char *s){
 
 }
 
+#ifndef TEST
 int main() {
 	char *b = malloc(sizeof(char) * 50);
 	char *a = malloc(sizeof(char) * 50);
@@ -126,6 +128,7 @@ int main() {
 	printf("%s\n", b);
 	reverse(b);
 	printf("%s\n", b);
+	
 	//string index
 	mygetline(c);
 	mygetline(c);
@@ -139,3 +142,4 @@ int main() {
 	return 0;
 
 }
+#endif //TEST
