@@ -14,9 +14,9 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <fcntl.h>
-
 void myStrcpy(char *s, char *t, int n) {
-	while (*s && *t && n > 0) {
+	if(!*t) return;
+	while (*t && n > 0) {
 		*s = *t;
 		s++;
 		t++;
@@ -46,35 +46,62 @@ int myStrcmp(char *s, char *t, int n) {
 	if (n == 0)
 		return 0;
 	for (i = 0; i < n; i++) {
-		if (*s != *t)
-			break;
+		if (*s != *t) {
+			if (*s - *t > 0)
+				return 1;
+			if (*s - *t < 0)
+				return -1;
+			return 0;
+		}
 		if (*s == '\0')
 			return 0;
 		s++;
 		t++;
 
 	}
+	s--;
+	t--;
 	if (*s - *t > 0)
 		return 1;
-	else
+	if (*s - *t < 0)
 		return -1;
+	return 0;
+
 }
 
 int myAtoi(char *s) {
 	int ans = 0;
+	int sg=1;
+	if(*s=='-')
+	{
+		sg=-1;
+		s++;
+	}
+	if(*s=='+')
+	{
+		sg=1;
+		s++;
+	}
 	while (*s != '\0') {
 		ans *= 10;
 		ans += *s - '0';
 		s++;
 	}
-	return ans;
+	return ans*sg;
 }
 void myItoa(int x, char *s) {
 	int tmp = 10;
+	if(x<0)
+	{
+		x*=-1;
+		*s='-';
+		s++;
+	}
+	*s='0';
 	while (tmp < x)
 		tmp *= 10;
 	tmp /= 10;
-	while (x > 0) {
+	while (tmp>0) {
 		*s = x / tmp + '0';
 		x %= tmp;
 		tmp /= 10;
@@ -116,30 +143,14 @@ int main() {
 	char *b = malloc(sizeof(char) * 50);
 	char *a = malloc(sizeof(char) * 50);
 	char *c = malloc(sizeof(char) * 50);
-	//getline and atoi
 	mygetline(a);
-	int x = myAtoi(a);
-	printf("%s\n", a);
-	printf("%d\n", x);
-	//ITOA and REVERSE
-	int f;
-	scanf("%d", &f);
-	myItoa(f, b);
-	printf("%s\n", b);
-	reverse(b);
-	printf("%s\n", b);
-	
-	//string index
-	mygetline(c);
-	mygetline(c);
-	char l;
-	scanf("%c",&l);
-	int idx=stridx(l,c);
-	printf("%d\n",idx);
+	int x;
+	x=myAtoi(a);
+	printf("%d\n",x);
 	free(a);
 	free(b);
 	free(c);
 	return 0;
 
 }
-#endif //TEST
+#endif
