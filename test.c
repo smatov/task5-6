@@ -36,6 +36,14 @@ void test_atoi_negative()
 	//accepted
 }
 
+void test_atoi_empty()
+{
+	//empty string 
+	a[0]='\0';
+	int x=myAtoi(a);
+	assert(0==1);
+}
+
 void test_cpy_empty()
 {
 	//empty string to empty string with n>0
@@ -91,6 +99,20 @@ void test_itoa_negative()
 	assert(a[0]=='-' && a[1]=='9' && a[2]=='8' && a[3]=='0');
 	//accepted
 }
+
+void test_itoa_bigvalue()
+{
+	//big int value
+	int x=1000000000;
+	myItoa(x,a);
+	assert(strlen(a)==10);
+	strcpy(b,"1000000000");
+	assert(!strcmp(a,b));
+	//accepted
+	
+}
+
+
 
 void test_reverse_empty()
 {
@@ -189,6 +211,26 @@ void test_strcmp_sp()
 	//accepted
 }
 
+void test_strcmp_d()
+{
+	//different strings
+	strcpy(a,"lol");
+	strcpy(b,"aol");
+	int x=myStrcmp(a,b,3);
+	assert(x==1);
+	//accepted
+	
+}
+
+void test_strcmp_same()
+{
+	//same strings. n>strlen()
+	strcpy(a,"abc");
+	strcpy(b,"abc");
+	int x=myStrcmp(a,b,5);
+	assert(x==0);
+	//accepted
+}
 void test_strcat_ete()
 {
 	//strcat empty to empty string
@@ -233,7 +275,7 @@ void test_teardown()
 
 int main() {
 	test_setup();
-	test_strcat();
+	test_strcmp_same();
 	test_teardown();
 	return 0;
 }
