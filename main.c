@@ -19,13 +19,12 @@
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX_INT 2147483647
-
 int myStrcpy(char *s, char *t, int n) {
 	if (!*t) {
 		*s = *t;
 		return 0;
 	}
-	if (malloc_usable_size(s) < MIN(strlen(t), n) + strlen(s))
+	if (malloc_usable_size(s) < MIN(strlen(t), n))
 		return -1;
 	while (*t && n > 0) {
 		*s = *t;
@@ -76,12 +75,6 @@ int myStrcmp(char *s, char *t, int n) {
 		s++;
 		t++;
 	}
-	s--;
-	t--;
-	if (*s - *t > 0)
-		return 1;
-	if (*s - *t < 0)
-		return -1;
 	return 0;
 
 }
@@ -93,16 +86,17 @@ int myAtoi(char *s, int *ans) {
 		return -1;
 	}
 	if (*s == '-') {
-		if(strlen(s)>10) return -1;
+		if (strlen(s) > 10)
+			return -1;
 		sg = -1;
 		s++;
-	} else
-	if (*s == '+') {
-		if(strlen(s)>10) return -1;
+	} else if (*s == '+') {
+		if (strlen(s) > 10)
+			return -1;
 		sg = 1;
 		s++;
-	} else
-		if(strlen(s)>=10) return -1;
+	} else if (strlen(s) >= 10)
+		return -1;
 	while (*s != '\0') {
 		tmp *= 10;
 		if (!isdigit(*s)) {
@@ -111,7 +105,8 @@ int myAtoi(char *s, int *ans) {
 		tmp += *s - '0';
 		s++;
 	}
-	if(tmp>MAX_INT) return -1;
+	if (tmp > MAX_INT)
+		return -1;
 	*ans = tmp * sg;
 
 	return 0;
@@ -125,15 +120,14 @@ int myItoa(int x, char *s) {
 		sg = -1;
 	}
 
-	int tsize=0;
-	int tmp=x;
+	int tsize = 0;
+	int tmp = x;
 	do {
 		tsize++;
-		tmp/=10;
-	} while (tmp>0);
-	if(tsize-MIN(sg,0)>malloc_usable_size(s)) return -1;
-	//useless condition cause malloc_usable_size
-	//returns 12 bytes ever for malloc(sizeof(char))
+		tmp /= 10;
+	} while (tmp > 0);
+	if (tsize - MIN(sg,0) > malloc_usable_size(s))
+		return -1;
 	*s = '0';
 	while (x > 0) {
 		*s = x % 10 + '0';
@@ -174,18 +168,15 @@ int stridx(char c, char *s) {
 	return ans;
 
 }
-
 #ifndef TEST
 int main() {
-	char *b = malloc(sizeof(char) * 5);
-	char *a = malloc(sizeof(char));
+	char *b = malloc(sizeof(char) * 50);
+	char *a = malloc(sizeof(char) * 50);
 	char *c = malloc(sizeof(char) * 50);
-	int t;
-	scanf("%d",&t);
-	int f=myItoa(t,a);
-	printf("%d\n", f);
-	printf("%s\n", a);
-	printf("%d\n",malloc_usable_size(a));
+	mygetline(a);
+	mygetline(b);
+	int x = myStrcmp(a, b, 50);
+	printf("%d\n", x);
 	free(a);
 	free(b);
 	free(c);
